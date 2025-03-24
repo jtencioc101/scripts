@@ -2,8 +2,8 @@
 There is a specific need to automate network connectivity issues from AKS clusters to the required endpoints
 
 # How?
-The script will take input from the enduser and will run `az vmss-command invoke ` with a set of tests to the required enpoints as per
-the documentation found here:
+The script will take input from the enduser and will run `az vmss run-command invoke ` to test DNS resoulution and TCP connectivity to the required endpoints
+mentioned on the follwing link:
 https://learn.microsoft.com/en-us/azure/aks/outbound-rules-control-egress
 
 
