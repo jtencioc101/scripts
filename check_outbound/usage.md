@@ -1,5 +1,5 @@
 # Why?
-There is a specific need to automate network connectivity issues from AKS clusters to the required endpoints
+There is a need to automate debugging network connectivity issues from AKS clusters to the required endpoints.
 
 # How?
 The script will take input from the enduser and will run `az vmss run-command invoke ` to test DNS resolution and TCP connectivity to the required endpoints
