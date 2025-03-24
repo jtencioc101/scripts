@@ -35,7 +35,7 @@ az vmss run-command invoke \
   -n "$vmss_name" \
   --command-id RunShellScript \
   --instance-id "$instance_id" \
-  --scripts @test.sh \
+  --scripts @endpoints.sh \
   --parameters "$aks_fqdn" \
   -o json | jq -r '.value[0].message | gsub("\\n"; "\n")' > "$log_file"
 
