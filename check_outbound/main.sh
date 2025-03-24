@@ -7,6 +7,11 @@ echo "# It is designed solely for read-only operations and will not make any cha
 echo "###############################################################################################"
 echo ""
 
+echo "This script will help us to determine if network connectivity can be established to the required endpoints for AKS"
+sleep 3
+
+echo "First, we must gather some information, please follow the prompmts"
+
 # Prompt for user inputs
 echo "Enter the resource group name:"
 read resource_group
