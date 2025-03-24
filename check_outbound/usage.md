@@ -1,0 +1,4 @@
+ -- clone this repo
+ -- chmod +x endpoints.sh main.sh
+ -- ./enpoints.sh
+ -- follow the prompts, provide the required info.
