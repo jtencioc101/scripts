@@ -10,6 +10,7 @@ https://learn.microsoft.com/en-us/azure/aks/outbound-rules-control-egress
 # Prerequisites:
 - jq
 
+# Steps / how to
 - clone this repo
 - cd scripts/check_outbound
 - chmod +x endpoints.sh main.sh
