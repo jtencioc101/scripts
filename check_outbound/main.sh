@@ -7,23 +7,35 @@ echo "# It is designed solely for read-only operations and will not make any cha
 echo "###############################################################################################"
 echo ""
 
-echo "This script will help us to determine if network connectivity can be established to the required endpoints for AKS"
-sleep 3
+# Function to display usage information
+usage() {
+  echo "Usage: $0 -g <resource_group> -n <vmss_name> -i <instance_id> -f <aks_fqdn>"
+  echo ""
+  echo "Options:"
+  echo "  -g, --resource-group    Azure resource group name"
+  echo "  -n, --vmss-name         VMSS (Virtual Machine Scale Set) name"
+  echo "  -i, --instance-id       Instance ID of the VM in the scale set"
+  echo "  -f, --aks-fqdn          AKS API Fully Qualified Domain Name (FQDN)"
+  exit 1
+}
 
-echo "First, we must gather some information, please follow the prompmts"
+# Parse command-line options
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    -g|--resource-group) resource_group="$2"; shift ;;
+    -n|--vmss-name) vmss_name="$2"; shift ;;
+    -i|--instance-id) instance_id="$2"; shift ;;
+    -f|--aks-fqdn) aks_fqdn="$2"; shift ;;
+    *) usage ;;
+  esac
+  shift
+done
 
-# Prompt for user inputs
-echo "Enter the resource group name:"
-read resource_group
-
-echo "Enter the VMSS name:"
-read vmss_name
-
-echo "Enter the instance ID:"
-read instance_id
-
-echo "Enter the AKS API Fully Qualified Domain Name (FQDN):"
-read aks_fqdn
+# Check if all required parameters are provided
+if [ -z "$resource_group" ] || [ -z "$vmss_name" ] || [ -z "$instance_id" ] || [ -z "$aks_fqdn" ]; then
+  echo "Error: Missing required parameters. Use '-h' for help."
+  usage
+fi
 
 # Log file where raw data will be saved
 log_file="vmss_output.txt"
@@ -71,4 +83,3 @@ cat "$log_file" | \
 
 # Let the user know where the log file is saved
 echo "The raw log data has been saved to: $log_file"
-
