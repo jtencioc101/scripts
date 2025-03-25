@@ -28,7 +28,7 @@ To use this script, you need to have:
     ```
     This will display the following usage help:
       ```
-      Usage: network-troubleshoot.sh -g <resource_group> -n <vmss_name> -i <instance_id> -f <aks_fqdn>
+      Usage: main.sh -g <resource_group> -n <vmss_name> -i <instance_id> -f <aks_fqdn>
 
       Options:
         -g, --resource-group <resource_group>    Azure resource group name
@@ -40,8 +40,7 @@ To use this script, you need to have:
     Example:
     ./main.sh -g myResourceGroup -n myVMSS -i 1 -f myAKSFQDN.com
 
-    This command will:
-
+    This command will: 
     - Connect to the specified VMSS instance.
     - Run a shell command to test network connectivity for the given AKS FQDN.
     - Save and process the output, displaying formatted results.
