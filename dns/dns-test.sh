@@ -4,10 +4,10 @@ prompt_user() {
 }
 
 # Check if jq is installed
-if ! command -v jq &> /dev/null; then
-    echo "jq could not be found. Please install it first."
-    exit 1
-fi
+#if ! command -v jq &> /dev/null; then
+#    echo "jq could not be found. Please install it first."
+#    exit 1
+#fi
 
 # Prompt user for required data
 prompt_user "Enter the name of the VNet" VNET_NAME
