@@ -13,7 +13,7 @@ This script is designed to automate the process of troubleshooting network issue
 To use this script, follow these steps:
 
 1. **Save the Script**:
-   Clone this repo and change directory to.
+   Clone this repo and change directory to scripts/dns.
 
 2. **Make the Script Executable**:
    Run the following command to make the script executable:
