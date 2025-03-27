@@ -15,7 +15,8 @@ DNS_SERVER_IPS=$(az network vnet show --name "$VNET_NAME" --resource-group "$RES
 
 # Check if we got any DNS servers and handle errors
 if [ -z "$DNS_SERVER_IPS" ]; then
-    # If no DNS servers are found, set the default Azure DNS IP address
+    # If the default Azure DNS is configured the az network show command won't return any value
+    # hardcoding the ip address in case this is being used
     DNS_SERVER_IPS="168.63.129.16"
     echo "The VNet is configured with the default Azure DNS."
 fi
