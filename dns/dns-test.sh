@@ -114,7 +114,3 @@ echo "1. success_output.log (Successful nslookup queries)"
 echo "2. error_output.log (Failed nslookup queries)"
 
 exit 0
-
-#aks-vnet-31772138
-#MC_aks_testaks_southcentralus
-#aks-agentpool-27907265-vmss000004
