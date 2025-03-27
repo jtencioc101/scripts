@@ -15,7 +15,7 @@ prompt_user "Enter the resource group name" RESOURCE_GROUP
 prompt_user "Enter the AKS nodepool name" AKS_NODEPOOL_NAME
 
 # Step 1: Retrieve DNS server IP addresses from the VNet
-DNS_SERVER_IPS=$(az network vnet show --name "$VNET_NAME" -g "$RESOURCE_GROUP" | jq -r '.dhcpOptions.dnsServers[]')
+DNS_SERVER_IPS=$(az network vnet show --name "$VNET_NAME" -g "$RESOURCE_GROUP" -o json| jq -r '.dhcpOptions.dnsServers[]')
 
 # Check if we got any DNS servers
 if [ -z "$DNS_SERVER_IPS" ]; then
