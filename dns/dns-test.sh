@@ -89,7 +89,7 @@ done
 echo "Nslookup completed. Success: $success_count, Errors: $error_count"
 
 # Clean up debug pod
-kubectl delete pod $DEBUG_POD_NAME --force 2>&1
+kubectl delete pod $DEBUG_POD_NAME --force > /dev/null 2>&1
 rm -f $YAML_FILE
 
 exit 0
