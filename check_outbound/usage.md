@@ -2,7 +2,7 @@
 
 ## Overview
 
-This script has been developed by the ACT team to assist with debugging network issues on Azure Kubernetes Service (AKS) nodes. It is designed solely for read-only operations and will not make any changes to the system.
+This script aims to assist with debugging network issues on Azure Kubernetes Service (AKS) nodes. It is designed solely for read-only operations and will not make any changes to the system.
 
 ## Purpose
 
