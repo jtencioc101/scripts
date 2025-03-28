@@ -5,7 +5,6 @@ This script automates network connectivity testing and packet capture on Azure K
 ## Features:
 - Tests network connectivity to a specified endpoint and port.
 - Captures network traffic on the same endpoint and port for the duration of the test.
-- Provides an animated spinner and colorful output to make the process more interactive.
 - Copies the packet capture file (`.pcap`) to the local machine after the test completes.
 - Removes the created pod and cleans up resources after the test finishes.
 
