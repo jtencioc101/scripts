@@ -72,7 +72,7 @@ run_nslookups() {
 }
 # Section: User Input
 clear
-display_header "Azure VNet DNS Checker"
+display_header "AKS DNS Check"
 prompt_user "🔹 Enter the name of the VNet" VNET_NAME
 prompt_user "🔹 Enter the resource group name" RESOURCE_GROUP
 validate_vnet

@@ -1,64 +1,87 @@
-# AKS DNS Tool
+# AKS DNS Check
 
 ## Overview
-This script is designed to automate the process of troubleshooting network issues on Azure Kubernetes Service (AKS) nodes by performing `nslookup` queries against DNS servers in a specified Virtual Network (VNet). It leverages a temporary debug pod to execute these queries and logs the results for further analysis.
+This Bash script automates the process of retrieving and testing DNS configurations for an Azure Virtual Network (VNet). It queries the DNS servers configured for the VNet and performs `nslookup` tests for user-specified Fully Qualified Domain Names (FQDNs) using a temporary Kubernetes debug pod.
 
-## Requirements
-1. **jq**: A lightweight and flexible command-line JSON processor.
-2. **kubectl**: The Kubernetes command-line tool, which you need to have set up and configured to interact with your AKS cluster.
-3. **Azure CLI**: The Azure Command-Line Interface, required to fetch DNS server IPs from the specified VNet.
-4. **Permissions**: The user should have enough permissions to get the VNET details as the script relies on the `az network vnet show ` command to get the list of configured DNS servers.
+## Features
+- Validates user-provided VNet and Resource Group names.
+- Retrieves DNS server IPs associated with the VNet.
+- Uses the default Azure DNS (168.63.129.16) if no custom DNS servers are configured.
+- Allows users to input multiple FQDNs for DNS resolution tests.
+- Creates a temporary Kubernetes debug pod to perform `nslookup` queries.
+- Logs successful and failed DNS resolution attempts.
+- Provides clear visual output with color highlights and status messages.
+- Automatically cleans up the debug pod after execution.
+
+## Prerequisites
+Before running the script, ensure you have the following installed and configured:
+- **Azure CLI** (`az` command-line tool)
+- **Kubernetes CLI** (`kubectl` command-line tool)
+- Access to an Azure Kubernetes Service (AKS) cluster
+- The necessary permissions to retrieve Azure VNet details and manage Kubernetes pods
 
 ## Usage
-To use this script, follow these steps:
 
-1. **Save the Script**:
-   Clone this repo and change directory to scripts/dns.
-
-2. **Make the Script Executable**:
-   Run the following command to make the script executable:
+1. Clone the repository or copy the script to your local machine.
+2. Make the script executable:
    ```bash
    chmod +x dns-test.sh
    ```
-
-3. **Run the script**:
+3. Run the script:
    ```bash
    ./dns-test.sh
    ```
-
-4. **Provide information**:
-   The script will prompt you to enter the following details:
+4. Follow the on-screen prompts to enter the required information:
    - VNet name
-   - Resource group name
-   - AKS nodepool name
-   - Comma-separated list of FQDNs to query
+   - Resource Group name
+   - FQDNs to query (comma-separated)
+5. The script will:
+   - Validate the provided VNet and Resource Group.
+   - Retrieve the associated DNS servers.
+   - Run `nslookup` queries using a temporary Kubernetes debug pod.
+   - Log successful and failed lookups.
+   - Clean up resources at the end.
 
-5. **Review output**:
-   After running the script, it will create a debug pod and run nslookup queries for each specified FQDN against all DNS servers in the VNet. The results will be logged in two files:
+## Output
+- The script displays retrieved DNS servers in a formatted list.
+- `nslookup` results are categorized into:
+  - `success_output.log` → Contains successful DNS lookups.
+  - `error_output.log` → Logs errors encountered during DNS queries.
+- At the end of execution, the script cleans up the debug pod automatically.
 
-   `success_output.log`: Contains successful nslookup queries.
-   `error_output.log`: Contains failed nslookup queries.
-
-**Example**:
-```bash
-./dns-test.sh
-
-Enter the name of the VNet: my-vnet
-Enter the resource group name: my-resource-group
-Enter the AKS nodepool name: my-nodepool
-Enter the FQDNs to query (comma-separated): example.com,google.com
-
-Creating debug pod with name debug-pod-1633072800-abcd...
-Debug pod created: debug-pod-1633072800-abcd
-Waiting for the debug pod to be running...
-
-Running nslookup for FQDNs example.com,google.com against all DNS servers in VNet...
-
-Summary:
-Successful nslookup queries: 2
-Failed nslookup queries: 0
-
-Results are logged in the following files:
-1. success_output.log (Successful nslookup queries)
-2. error_output.log (Failed nslookup queries)
+## Example Execution
 ```
+🔹 Enter the name of the VNet: my-vnet
+🔹 Enter the resource group name: my-resource-group
+🔍 Fetching DNS server information...
+✅ Retrieved DNS Servers:
+  • 10.0.0.10
+  • 10.0.0.11
+
+🔹 Enter the FQDNs to query (comma-separated): example.com, myapp.internal
+🚀 Creating debug pod...
+🌍 Running nslookup queries...
+
+🔹 Querying DNS Server: 10.0.0.10
+✅ Success: example.com resolved via 10.0.0.10
+❌ Error: Failed to resolve myapp.internal using 10.0.0.10
+
+🔹 Querying DNS Server: 10.0.0.11
+✅ Success: example.com resolved via 10.0.0.11
+❌ Error: Failed to resolve myapp.internal using 10.0.0.11
+
+✅ Nslookup completed. Success: 2, Errors: 2
+📜 Log files generated:
+- ✅ success_output.log: Contains successful DNS resolutions.
+- ❌ error_output.log: Contains failed DNS resolution attempts and errors.
+🧹 Cleaning up debug pod...
+✅ Cleanup complete.
+```
+
+## Troubleshooting
+- **Invalid VNet or Resource Group:** The script prompts for re-entry if incorrect information is provided.
+- **No Custom DNS Servers Found:** The script uses `168.63.129.16` if no custom DNS is set.
+- **Kubernetes Debug Pod Issues:** Ensure your AKS cluster is running and accessible.
+
+## Contributing
+If you have improvements or suggestions, feel free to fork the repository and submit a pull request.
