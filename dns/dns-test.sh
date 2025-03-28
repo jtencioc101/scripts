@@ -18,7 +18,9 @@ if [ -z "$DNS_SERVER_IPS" ]; then
     # If the default Azure DNS is configured the az network show command won't return any value
     # hardcoding the ip address in case this is being used
     DNS_SERVER_IPS="168.63.129.16"
+    echo "=================================================="
     echo "The VNet is configured with the default Azure DNS."
+    echo "=================================================="
 fi
 
 echo "Retrieved DNS Servers: $DNS_SERVER_IPS"
@@ -65,24 +67,30 @@ spec:
 EOF
 
 # Apply the YAML file to create the debug pod
+echo "=================================================="
 echo "Creating debug pod with name $DEBUG_POD_NAME..."
+echo "=================================================="
 kubectl apply -f $YAML_FILE
 
 # Wait for the debug pod to be running
+echo "=========================================="
 echo "Waiting for the debug pod to be running..."
+echo "=========================================="
 kubectl wait --for=condition=Ready pod/$DEBUG_POD_NAME
 
 # Run nslookup queries and log results into separate files
+echo "==============================================================================="
 echo "Running nslookup for FQDNs ${FQDNS_ARRAY[@]} against all DNS servers in VNet..."
+echo "==============================================================================="
 
 success_count=0
 error_count=0
 
 # Loop through each DNS server and run nslookups for each FQDN
 for dns_server_ip in $DNS_SERVER_IPS; do
-    echo "========================================"
+    echo "=============================================================="
     echo "Running nslookup queries against DNS server IP: $dns_server_ip"
-    echo "----------------------------------------"
+    echo "=============================================================="
     for fqdn in "${FQDNS_ARRAY[@]}"; do
         if run_nslookups "$dns_server_ip" "$fqdn"; then
             ((success_count++))
@@ -93,9 +101,9 @@ for dns_server_ip in $DNS_SERVER_IPS; do
 done
 
 # Final output
-echo "========================================"
+echo "================================================================="
 echo "Nslookup completed. Success: $success_count, Errors: $error_count"
-echo "========================================"
+echo "================================================================="
 
 # Inform user about the log files and their content
 echo "Script execution complete."
@@ -104,7 +112,7 @@ echo "- success_output.log: Contains successful nslookup results for each FQDN."
 echo "- error_output.log: Contains failed nslookup attempts and errors."
 
 # Clean up the debug pod and YAML file
-kubectl delete pod $DEBUG_POD_NAME > /dev/null 2>&1
-rm -f $YAML_FILE
+kubectl delete pod $DEBUG_POD_NAME --force >/dev/null 2>&1
+rm -rf debug_pod.yaml
 
 exit 0
