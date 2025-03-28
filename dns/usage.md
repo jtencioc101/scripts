@@ -82,6 +82,3 @@ Before running the script, ensure you have the following installed and configure
 - **Invalid VNet or Resource Group:** The script prompts for re-entry if incorrect information is provided.
 - **No Custom DNS Servers Found:** The script uses `168.63.129.16` if no custom DNS is set.
 - **Kubernetes Debug Pod Issues:** Ensure your AKS cluster is running and accessible.
-
-## Contributing
-If you have improvements or suggestions, feel free to fork the repository and submit a pull request.
